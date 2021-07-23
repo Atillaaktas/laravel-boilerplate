@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\TagController;
 
 
   
@@ -52,6 +53,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('brands', BrandController::class);
     Route::resource('units', UnitController::class);
     Route::resource('status', StatusController::class);
+     Route::resource('tags', TagController::class);
 
 });
 

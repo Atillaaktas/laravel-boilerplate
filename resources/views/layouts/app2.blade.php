@@ -44,7 +44,8 @@
             @can('unit-list')<li><a class="nav-link" href="{{ route('units.index') }}">Birim</a></li>@endcan
             @can('brand-list')<li><a class="nav-link" href="{{ route('brands.index') }}">Marka</a></li>@endcan   
             @can('status-list')<li><a class="nav-link" href="{{ route('status.index') }}">Durum</a></li>@endcan            
-                           
+            @can('tag-list')<li><a class="nav-link" href="{{ route('tags.index') }}">Etiket</a></li>@endcan                     
+               
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

@@ -88,7 +88,7 @@
 
 						</div>
 						<div data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
-							<a href=""><span class="menu-link py-3">
+							<a href="{{ route('tags.index') }}"><span class="menu-link py-3">
 									<span class="menu-icon">
 										<!--begin::Svg Icon | path: icons/duotone/Code/Compiling.svg-->
 										<span class="svg-icon svg-icon-2">

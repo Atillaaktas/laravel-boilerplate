@@ -47,12 +47,25 @@ class BrandController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         Brand::create($request->all());
+        if ($image = $request->file('image')) {
+            $destinationPath = 'image/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = "$profileImage";
+        }
+    
+        Brand::create($input);
+    
 
         return redirect()->route('brands.index')
             ->with('success', 'Brand created successfully.');
     }
+    
+        
+            
 
     /**
      * Display the specified resource.

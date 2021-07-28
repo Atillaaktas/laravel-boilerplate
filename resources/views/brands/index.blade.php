@@ -26,6 +26,7 @@
     <table class="table table-bordered">
         <tr>
             <th>No</th>
+            <th>Resim</th>
             <th>İsim</th>
             <th width="280px">Aksiyon</th>
         </tr>
@@ -33,6 +34,7 @@
 	    <tr>
 	        <td>{{ $brand->id }}</td>
 	        <td>{{ $brand->name }}</td>
+            <td><img src="/image/{{ $brand->image }}" width="100px" height="100px"></td>
 	        <td>
                 <form action="{{ route('brands.destroy',$brand->id) }}" method="POST">
                     <a class="btn btn-info" href="{{ route('brands.show',$brand->id) }}">Göster</a>

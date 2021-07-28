@@ -46,7 +46,11 @@ class PermissionTableSeeder extends Seeder
            'status-list',
            'status-create',
            'status-edit',
-           'status-delete'
+           'status-delete',
+           'tag-list',
+           'tag-create',
+           'tag-edit',
+           'tag-delete'
         ];
      
         foreach ($permissions as $permission) {

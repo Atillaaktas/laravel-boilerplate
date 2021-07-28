@@ -20,10 +20,12 @@
     <tr>
         <th>No</th>
         <th>isim</th>
+        <th>Resim</th>
     </tr>
     <tr>
         <td>{{ $brand->id }}</td>
         <td>{{ $brand->name }}</td>
+        <td><img src="/image/{{ $brand->image }}" width="100px" height="100px"></td>
     </tr>
 
 

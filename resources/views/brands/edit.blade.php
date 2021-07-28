@@ -38,6 +38,16 @@
 		            <input type="text" name="name" value="{{ $brand->name }}" class="form-control" placeholder="isim">
 		        </div>
 		    </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Resim:</strong>
+                    <input type="file" name="image" class="form-control" placeholder="resim">
+                    <img src="/image/{{ $brand->image }}" width="300px">
+                </div>
+            </div>
+
+
             <div class="col-xs-12 col-sm-12 col-md-12">
             <button type="submit" class="btn btn-primary">Ekle</button>
             </div>

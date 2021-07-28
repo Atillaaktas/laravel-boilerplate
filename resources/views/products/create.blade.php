@@ -45,7 +45,7 @@
 		    </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>İsim:</strong>
+                <strong>Resim:</strong>
                 <input type="file" name="image" class="form-control" placeholder="resim">
             </div>
         </div>

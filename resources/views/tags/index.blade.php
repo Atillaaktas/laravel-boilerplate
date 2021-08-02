@@ -1,15 +1,19 @@
 @extends('layouts.app')
 
 
+
 @section('content')
-    <div class="row">
+<div class="container">
+
+
+<div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
                 <h2>Etiketler</h2>
             </div>
             <div class="pull-right">
-                @can('product-create')
-                <a class="btn btn-success" href="{{ route('tags.create') }}"> Yeni Ürün Ekle</a>
+                @can('tag-create')
+                <a class="btn btn-success" href="{{ route('tags.create') }}"> Yeni Etiket Ekle</a>
                 @endcan
             </div>
         </div>
@@ -21,34 +25,49 @@
             <p>{{ $message }}</p>
         </div>
     @endif
+    <div class="container">
+    <div class="card bg-light mt-3">
+      
+        
+            <form action="{{ route('tags.index') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <a class="btn btn-warning" href="{{ route('export') }}">Export Tag Data</a>
+            </form>
+        
+    </div>
+    </div>
 
-
-    <table class="table table-bordered">
+    <table class="table table-bordered data-table">
         <tr>
             <th>No</th>
             <th>İsim</th>
             <th width="280px">Aksiyon</th>
         </tr>
-	    @foreach ($tags as $unit) 
-	    <tr>
-	        <td>{{ $unit->id }}</td>
-	        <td>{{ $unit->name }}</td>
-	        <td>
-                <form action="{{ route('tags.destroy',$unit->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('tags.show',$unit->id) }}">Göster</a>
-                    @can('product-edit')
-                    <a class="btn btn-primary" href="{{ route('tags.edit',$unit->id) }}">Düzenle</a>
-                    @endcan
-
-
-                    @csrf
-                    @method('DELETE')
-                    @can('unit-delete')
-                    <button type="submit" class="btn btn-danger">Sil</button>
-                    @endcan
-                </form>
-	        </td>
-	    </tr>
-	    @endforeach
+	    
     </table>
+</div>
+@endsection
+@section('scripts') 
+<script type="text/javascript">
+  $(function () {
+    
+    var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('tags.index') }}",
+        columns: [  
+            {data: 'id', name: 'id'},
+            {data: 'name', name: 'name'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+           
+	    
+	    
+        ]
+        
+
+          
+    });
+    
+  });
+</script>
 @endsection

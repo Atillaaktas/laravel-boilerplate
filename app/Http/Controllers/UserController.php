@@ -9,6 +9,8 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
+
+
     
 class UserController extends Controller
 {
@@ -59,6 +61,13 @@ class UserController extends Controller
         ]);
     
         $input = $request->all();
+        if ($image = $request->file('image')) {
+            $destinationPath = 'image/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = "$profileImage";
+        }
+    
         $input['password'] = Hash::make($input['password']);
     
         $user = User::create($input);
@@ -112,10 +121,24 @@ class UserController extends Controller
         ]);
     
         $input = $request->all();
+
+        
+
+
         if(!empty($input['password'])){ 
             $input['password'] = Hash::make($input['password']);
         }else{
             $input = Arr::except($input,array('password'));    
+        }
+
+
+        if ($image = $request->file('image')) {
+            $destinationPath = 'image/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = "$profileImage";
+        }else{
+            unset($input['image']);
         }
     
         $user = User::find($id);

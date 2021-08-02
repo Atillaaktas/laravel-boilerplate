@@ -21,6 +21,11 @@ class CreateProductsTable extends Migration
             $table->string("name", 255);
             $table->string('excel');
             $table->decimal("price", 6, 2);
+            $table->decimal("width", 6, 2);
+            $table->decimal("height", 6, 2);
+            $table->decimal("weight", 6, 2);
+            $table->decimal("kg", 6, 2);
+            $table->decimal("deci", 6, 2);
             $table->integer('stock');
             $table->integer('category_id');
             $table->integer('brand_id');

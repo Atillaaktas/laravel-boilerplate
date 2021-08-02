@@ -15,20 +15,27 @@
 
 
 @if (count($errors) > 0)
-  <div class="alert alert-danger">
+<div class="alert alert-danger">
     <strong>Whoops!</strong> Girişinizle ilgili bazı sorunlar vardı.<br><br>
     <ul>
-       @foreach ($errors->all() as $error)
-         <li>{{ $error }}</li>
-       @endforeach
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
     </ul>
-  </div>
+</div>
 @endif
 
 
 
 {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
 <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Resim:</strong>
+            <input type="file" name="image" class="form-control" placeholder="resim">
+        </div>
+    </div>
+    
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>İsim:</strong>

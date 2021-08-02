@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Status;
 use Illuminate\Http\Request;
+use DataTables;
 
 class StatusController extends Controller
 {
@@ -19,10 +20,31 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+
+    public function index(Request $request)
     {
-        $status = Status::all();
-        return view('status.index', compact('status'));
+        if ($request->ajax()) {
+            $data = Status::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+                           $btn = "<a href='/status/$row->id' class='edit btn btn-info btn-sm'>Göster</a>";
+                           $btn = $btn."<a href='/status/$row->id/edit' class='edit btn btn-info btn-sm'>Edit</a>";
+                           $btn = $btn." <form action='{{ route('status.destroy',$row->id) }}' method='POST'>
+                           @csrf
+                           @method('DELETE')
+                           @can('status-delete')
+                           <button type='submit' class='btn btn-danger'>Sil</button>
+                           @endcan
+                       </form>";
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        
+        return view('status.index');
     }
 
     /**

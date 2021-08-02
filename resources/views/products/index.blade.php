@@ -1,15 +1,19 @@
 @extends('layouts.app')
 
 
+
 @section('content')
-    <div class="row">
+<div class="container">
+
+
+<div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
                 <h2>Ürünler</h2>
             </div>
             <div class="pull-right">
-                @can('product-create')
-                <a class="btn btn-success" href="{{ route('products.create') }}"> Yeni Ürün Ekle</a>
+                @can('brand-create')
+                <a class="btn btn-success" href="{{ route('brands.create') }}"> Yeni Ürün Ekle</a>
                 @endcan
             </div>
         </div>
@@ -40,6 +44,11 @@
             <th>İsim</th>
             <th>Detay</th>
             <th>Fiyat</th>
+            <th>En</th>
+            <th>Boy</th>
+            <th>Yükseklik</th>
+            <th>Kilogram</th>
+            <th>Desi</th>
             <th>Stok</th>
             <th>Kategori</th>
             <th>Marka</th>
@@ -48,38 +57,11 @@
             <th>İade Edilebilirlik</th>
             <th width="280px">Aksiyon</th>
         </tr>
-	    @foreach ($products as $product) 
-	    <tr>
-	        <td>{{ $product->id }}</td>
-            <td><img src="/image/{{ $product->image }}" width="100px" height="100px"></td>
-	        <td>{{ $product->name }}</td>
-	        <td>{{ $product->detail }}</td>
-            <td>{{ $product->price }}</td>
-            <td>{{ $product->stock }}</td>
-            <td>{{ $product->category_name }}</td>
-            <td>{{ $product->brand_name }}</td>
-            <td>{{ $product->unit_name }}</td>
-            <td>{{ $product->tag_name }}</td>
-            <td>{{ $product->refundable_name }}</td>
-	        <td>
-                <form action="{{ route('products.destroy',$product->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('products.show',$product->id) }}">Göster</a>
-                    @can('product-edit')
-                    <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}">Düzenle</a>
-                    @endcan
-
-
-                    @csrf
-                    @method('DELETE')
-                    @can('product-delete')
-                    <button type="submit" class="btn btn-danger">Sil</button>
-                    @endcan
-                </form>
-	        </td>
-	    </tr>
-	    @endforeach
+	    
     </table>
-    @section('scripts') 
+</div>
+@endsection
+@section('scripts') 
 <script type="text/javascript">
   $(function () {
     
@@ -89,9 +71,15 @@
         ajax: "{{ route('products.index') }}",
         columns: [  
             {data: 'id', name: 'id'},
+            {data: 'image', name: 'image'},
             {data: 'name', name: 'name'},
             {data: 'detail', name: 'detail'},
             {data: 'price', name: 'price'},
+            {data: 'width', name: 'width'},
+            {data: 'height', name: 'height'},
+            {data: 'weight', name: 'weight'},
+            {data: 'kg', name: 'kg'},
+            {data: 'deci', name: 'deci'},
             {data: 'stock', name: 'stock'},
             {data: 'category_name', name: 'category_name'},
             {data: 'brand_name', name: 'brand_name'},
@@ -99,17 +87,15 @@
             {data: 'tag_name', name: 'tag_name'},
             {data: 'refundable_name', name: 'refundable_name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
+           
+	    
+	    
+        ]
+        
+
           
     });
     
   });
 </script>
-@endsection
-
-
-    
-
-
-
-
 @endsection

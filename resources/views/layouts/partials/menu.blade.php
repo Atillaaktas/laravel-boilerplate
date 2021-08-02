@@ -132,7 +132,7 @@
 				</div>
 
 				@can('order-list')<div data-kt-menu-placement="bottom-start" class="menu-item   menu-lg-down-accordion me-lg-1">
-					<a class="menu-link py-3" href="{{ route('productlist') }}">
+					<a class="menu-link py-3" href="{{ route('cart') }}">
 						<span class="menu-title">Sepetim</span>
 
 					</a>

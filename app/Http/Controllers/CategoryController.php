@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Hash;
+use DataTables;
 
 
 class CategoryController extends Controller
@@ -23,10 +24,30 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function index(Request $request)
     {
-        $categories = Category::all();
-        return view('categories.index', compact('categories'));
+        if ($request->ajax()) {
+            $data = Category::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+                           $btn = "<a href='/categories/$row->id' class='edit btn btn-info btn-sm'>Göster</a>";
+                           $btn = $btn."<a href='/categories/$row->id/edit' class='edit btn btn-info btn-sm'>Edit</a>";
+                           $btn = $btn." <form action='{{ route('category.destroy',$row->id) }}' method='POST'>
+                           @csrf
+                           @method('DELETE')
+                           @can('category-delete')
+                           <button type='submit' class='btn btn-danger'>Sil</button>
+                           @endcan
+                       </form>";
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        
+        return view('categories.index');
     }
 
     /**

@@ -2,7 +2,8 @@
 <div class="d-flex align-items-center me-n3 ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
 											<!--begin::Menu wrapper-->
 											<div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
-												<img class="h-25px w-25px rounded" src="{{ asset('theme/assets/media/avatars/150-25.jpg') }}" alt="" />
+												<img class="h-25px w-25px rounded" src="/image/{{ Auth::user()->image }}" alt="" />
+												
 											</div>
 											<!--begin::Menu-->
 											@guest

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Exports\ProductsExport;
 use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
-use DataTables;    
+use DataTables;
 
 
     
@@ -40,13 +40,25 @@ class ProductController extends Controller
     public function index(Request $request )
     {
         if ($request->ajax()) {
-            $data = Product::select('*');
+            
+        $data = Product::join('categories','products.category_id', '=', 'categories.id')
+        ->Join('tags','products.tag_id', '=', 'tags.id')
+        ->Join('brands','products.brand_id', '=', 'brands.id')
+        ->Join('units','products.unit_id', '=', 'units.id')
+        ->Join('refundables','products.refundable_id', '=', 'refundables.id')
+        ->get( array("products.*","categories.name as category_name","tags.name as tag_name","brands.name as brand_name","units.name as unit_name","refundables.name as refundable_name"));
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-                           $btn = "<a href='/products/$row->id' class='edit btn btn-info btn-sm'>Göster</a>";
-                        //    $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                        //    $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-danger btn-sm">Delete</a>';
+                           $btn = "<a href='/products/$row->id' class='show btn btn-info btn-sm'>Göster</a>";
+                            $btn = $btn."<a href='/products/$row->id/edit' class='edit btn btn-info btn-sm'>Edit</a>";
+                            $btn = $btn." <form action='{{ route('product.destroy',$row->id) }}' method='POST'>
+                            @csrf
+                            @method('DELETE')
+                            @can('product-delete')
+                            <button type='submit' class='btn btn-danger'>Sil</button>
+                            @endcan
+                        </form>";
                             return $btn;
                     })
                     ->rawColumns(['action'])
@@ -54,15 +66,9 @@ class ProductController extends Controller
         }
         
         
-        $products = Product::join('categories','products.category_id', '=', 'categories.id')
-        ->Join('tags','products.tag_id', '=', 'tags.id')
-        ->Join('brands','products.brand_id', '=', 'brands.id')
-        ->Join('units','products.unit_id', '=', 'units.id')
-        ->Join('refundables','products.refundable_id', '=', 'refundables.id')
-        ->paginate(10, array("products.*","categories.name as category_name","tags.name as tag_name","brands.name as brand_name","units.name as unit_name","refundables.name as refundable_name"));
        
        
-        return view('products.index',compact('products'));         
+        return view('products.index');         
     }
     public function products()
     {
@@ -103,12 +109,13 @@ class ProductController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'price' =>"required|regex:/^\d+(\.\d{1,2})?$/",
             'stock' =>"required|regex:/^\d+(\.\d{1,2})?$/"
-            
-            
-            
+
         ]);
+
   
         $input = $request->all();
+
+        $input['deci'] = ($input['width'] * $input['height'] * $input['weight']) / 3000;
   
         if ($image = $request->file('image')) {
             $destinationPath = 'image/';
@@ -187,6 +194,7 @@ class ProductController extends Controller
   
         $input = $request->all();
   
+        $input['deci'] = ($input['width'] * $input['height'] * $input['weight']) / 3000;
         if ($image = $request->file('image')) {
             $destinationPath = 'image/';
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
@@ -198,6 +206,8 @@ class ProductController extends Controller
           
         $product->update($input);
     
+       
+
         return redirect()->route('products.index')
                         ->with('success','Product updated successfully');
     }

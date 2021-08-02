@@ -59,6 +59,37 @@
 		    </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
+		            <strong>En:</strong>
+		            <input type="text" name="width" value="{{ $product->width }}" class="form-control" placeholder="En">
+		        </div>
+		    </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+		        <div class="form-group">
+		            <strong>Boy:</strong>
+		            <input type="text" name="height" value="{{ $product->height }}" class="form-control" placeholder="Boy">
+		        </div>
+		    </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+		        <div class="form-group">
+		            <strong>Yükseklik:</strong>
+		            <input type="text" name="weight" value="{{ $product->weight }}" class="form-control" placeholder="Yükseklik">
+		        </div>
+		    </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+		        <div class="form-group">
+		            <strong>Kilogram:</strong>
+		            <input type="text" name="kg" value="{{ $product->kg }}" class="form-control" placeholder="Kilogram">
+		        </div>
+		    </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+		        <div class="form-group">
+		            <strong>Desi:</strong>
+		            <input type="text" name="deci" value="{{ $product->deci }}" class="form-control" placeholder="Kilogram" readonly>
+		        </div>
+		    </div>
+            
+            <div class="col-xs-12 col-sm-12 col-md-12">
+		        <div class="form-group">
 		            <strong>Stok:</strong>
                     <input type="text" name="stock" value="{{ $product->stock }}" class="form-control" placeholder="Stok">
 		        </div>

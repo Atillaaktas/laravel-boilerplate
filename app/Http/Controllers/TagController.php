@@ -7,6 +7,7 @@ use App\Models\tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Hash;
+use DataTables;
 
 
 class TagController extends Controller
@@ -23,10 +24,30 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function index(Request $request)
     {
-        $tags = Tag::all();
-        return view('tags.index', compact('tags'));
+        if ($request->ajax()) {
+            $data = Tag::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+                           $btn = "<a href='/tags/$row->id' class='edit btn btn-info btn-sm'>Göster</a>";
+                           $btn = $btn."<a href='/tags/$row->id/edit' class='edit btn btn-info btn-sm'>Edit</a>";
+                           $btn = $btn." <form action='{{ route('tag.destroy',$row->id) }}' method='POST'>
+                           @csrf
+                           @method('DELETE')
+                           @can('tag-delete')
+                           <button type='submit' class='btn btn-danger'>Sil</button>
+                           @endcan
+                       </form>";
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        
+        return view('tags.index');
     }
 
     /**

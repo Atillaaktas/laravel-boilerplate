@@ -7,6 +7,7 @@ use App\Models\unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Hash;
+use DataTables;
 
 class UnitController extends Controller
 {
@@ -22,11 +23,33 @@ class UnitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+   
+
+    public function index(Request $request)
     {
-        $units = Unit::all();
-        return view('units.index', compact('units'));
+        if ($request->ajax()) {
+            $data = Unit::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+                           $btn = "<a href='/units/$row->id' class='edit btn btn-info btn-sm'>Göster</a>";
+                           $btn = $btn."<a href='/units/$row->id/edit' class='edit btn btn-info btn-sm'>Edit</a>";
+                           $btn = $btn." <form action='{{ route('unit.destroy',$row->id) }}' method='POST'>
+                           @csrf
+                           @method('DELETE')
+                           @can('unit-delete')
+                           <button type='submit' class='btn btn-danger'>Sil</button>
+                           @endcan
+                       </form>";
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        
+        return view('units.index');
     }
+
 
     /**
      * Show the form for creating a new resource.

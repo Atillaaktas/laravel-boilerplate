@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.app')
   
 @section('content')
 <table id="cart" class="table table-hover table-condensed">
@@ -44,7 +44,7 @@
         <tr>
             <td colspan="5" class="text-right" >
                 <a href="{{ route('productlist') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Alışverişe Devam Et</a>
-                <a href="{{ route('order.add') }}"  class="btn btn-warning"><i class="fa fa-angle-right"></i> Siparişler</a>
+                <a href="{{ route('order.add') }}"  class="btn btn-warning"><i class="fa fa-angle-right"></i> Sipariş Oluştur</a>
                
             </td>
             <div class="row">

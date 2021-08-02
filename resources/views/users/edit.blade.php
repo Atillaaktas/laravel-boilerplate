@@ -28,6 +28,13 @@
 
 {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
 <div class="row">
+<div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Resim:</strong>
+                    <input type="file" name="image" class="form-control" placeholder="resim">
+                    <img src="/image/{{ $user->image }}" width="300px">
+                </div>
+            </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>İsim:</strong>

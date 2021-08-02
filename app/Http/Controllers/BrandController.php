@@ -6,6 +6,7 @@ use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Hash;
+use DataTables;
 
 class BrandController extends Controller
 {
@@ -21,10 +22,29 @@ class BrandController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $brands = Brand::all();
-        return view('brands.index', compact('brands'));
+        if ($request->ajax()) {
+            $data = Brand::select('*');
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+                           $btn = "<a href='/brands/$row->id' class='edit btn btn-info btn-sm'>Göster</a>";
+                           $btn = $btn."<a href='/brands/$row->id/edit' class='edit btn btn-info btn-sm'>Edit</a>";
+                           $btn = $btn." <form action='{{ route('brand.destroy',$row->id) }}' method='POST'>
+                           @csrf
+                           @method('DELETE')
+                           @can('brand-delete')
+                           <button type='submit' class='btn btn-danger'>Sil</button>
+                           @endcan
+                       </form>";
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        
+        return view('brands.index');
     }
 
     /**

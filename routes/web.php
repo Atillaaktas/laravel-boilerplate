@@ -12,6 +12,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\AdminController;
 
 
   
@@ -44,6 +45,7 @@ Route::post('import', [ProductController::class, 'import'])->name('import');
 Auth::routes();
   
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
   
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);

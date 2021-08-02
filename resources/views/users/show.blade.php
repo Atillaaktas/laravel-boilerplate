@@ -15,12 +15,14 @@
 <table class="table table-bordered">
  <tr>
    <th>No</th>
+   <th>Resim</th>
    <th>İsim</th>
    <th>Email</th>
    <th>Rol</th>
  </tr>
  <tr>
     <td>{{ $user->id }}</td>
+    <td><img src="/image/{{ $user->image }}" width="100px" height="100px"></td>
     <td>{{ $user->name }}</td>
     <td>{{ $user->email }}</td>
     <td>@if(!empty($user->getRoleNames()))
